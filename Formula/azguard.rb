@@ -2,25 +2,25 @@ class Azguard < Formula
   desc "One command to make sure your Azure free tier doesn't surprise you with a bill"
   homepage "https://github.com/cdobratz/AzGuard"
   license "MIT"
-  version "1.0.3"
+  version "1.0.4"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/cdobratz/AzGuard/releases/download/v1.0.3/azguard_1.0.3_darwin_arm64.zip"
-      sha256 "0efc4890d1802fdea8730d422cedb439c2fbd3a019615fa412920f30b2a289ab"
+      url "https://github.com/cdobratz/AzGuard/releases/download/v1.0.4/azguard_1.0.4_darwin_arm64.zip"
+      sha256 "6a64fcd0835cee2d5233a031f927d0f55c23d1c5713c806884f2bf75f5d06c08"
     else
-      url "https://github.com/cdobratz/AzGuard/releases/download/v1.0.3/azguard_1.0.3_darwin_amd64.zip"
-      sha256 "b97365c98257316b0af44263c62425f18f0673edb533cfae8a0a6b94297ff244"
+      url "https://github.com/cdobratz/AzGuard/releases/download/v1.0.4/azguard_1.0.4_darwin_amd64.zip"
+      sha256 "9c504f9a076406bf330405cb79fd49f0a1caa8478bb5a5a17dfeb57067985f73"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/cdobratz/AzGuard/releases/download/v1.0.3/azguard_1.0.3_linux_arm64.tar.gz"
-      sha256 "13985f371985fd86173acb6d5b05d5419e28c256bd0f126097ea6f4aa5e496c7"
+      url "https://github.com/cdobratz/AzGuard/releases/download/v1.0.4/azguard_1.0.4_linux_arm64.tar.gz"
+      sha256 "75bb8426575bfa56613c761359820116da4f13bf8fa9938696be30c59b7db543"
     else
-      url "https://github.com/cdobratz/AzGuard/releases/download/v1.0.3/azguard_1.0.3_linux_amd64.tar.gz"
-      sha256 "98e06786e59a528241abd1a46c5b87136ba41c3e7f7ae0898212c3d1b86546a0"
+      url "https://github.com/cdobratz/AzGuard/releases/download/v1.0.4/azguard_1.0.4_linux_amd64.tar.gz"
+      sha256 "dd83665056c34ee0f2a3d0ed8e645120ee428fc7b401b1707df481e3600d1e44"
     end
   end
 
