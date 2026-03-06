@@ -1,6 +1,6 @@
 # homebrew-azguard
 
-Homebrew tap for [AzGuard](https://github.com/cdobratz/AzGuard) — One command to make sure your Azure and AWS free tiers don't surprise you with a bill.
+Homebrew tap for [AzGuard](https://github.com/cdobratz/AzGuard)  One command to make sure your Azure and AWS free tiers don't surprise you with a bill.
 
 ## Install
 
