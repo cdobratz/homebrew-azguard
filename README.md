@@ -1,6 +1,6 @@
 # homebrew-azguard
 
-Homebrew tap for [AzGuard](https://github.com/cdobratz/AzGuard) — One command to make sure your Azure free tier doesn't surprise you with a bill.
+Homebrew tap for [AzGuard](https://github.com/cdobratz/AzGuard) — One command to make sure your Azure and AWS free tiers don't surprise you with a bill.
 
 ## Install
 
@@ -62,10 +62,48 @@ azguard cost
 | `azguard aws resources` | List free tier eligible services |
 | `azguard aws cost` | View AWS cost breakdown |
 
+## AWS Credential Setup
+
+AzGuard resolves AWS credentials in the following order:
+
+1. **AzGuard config file** (`~/.azguard/config.yaml`):
+   ```yaml
+   aws:
+     access_key: "YOUR_ACCESS_KEY"
+     secret_key: "YOUR_SECRET_KEY"
+     region: "us-east-1"
+   ```
+
+2. **Environment variables:**
+   ```bash
+   export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY"
+   export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_KEY"
+   export AWS_DEFAULT_REGION="us-east-1"
+   ```
+
+3. **AWS CLI** (automatic fallback — if you've already run `aws configure`, AzGuard picks up those credentials)
+
+### Required IAM Permissions
+
+- `ce:GetCostAndUsage` — Cost Explorer queries
+- `freetier:GetFreeTierUsage` — Free tier usage data
+
 ## Requirements
 
-- Azure subscription
-- Azure CLI `az` authenticated
+### Azure
 
-For more commands and options, see the [Full Documentation](https://github.com/cdobratz/AzGuard)
+- Azure subscription
+- Azure CLI (`az`) authenticated
+
+### AWS
+
+- AWS account (free tier eligible)
+- AWS credentials configured (see above)
+
+## Other Install Methods
+
+- **Scoop (Windows):** `scoop bucket add azguard https://github.com/cdobratz/scoop-azguard && scoop install azguard`
+- **Direct:** Download from [GitHub Releases](https://github.com/cdobratz/AzGuard/releases)
+
+For more commands and options, see the [full documentation](https://github.com/cdobratz/AzGuard).
 
