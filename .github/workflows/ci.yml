@@ -26,4 +26,4 @@ jobs:
           brew style --formula "$FORMULA"
           brew audit --strict --os=all --arch=all --formula "$FORMULA"
           brew install --formula "$FORMULA"
-          brew test --formula "$FORMULA"
+          brew test "$FORMULA"
