@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  brew:
+    name: brew audit and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@1f8e202ffddf94def7f42f6fa3a482e821489f9c # 2026.07.10.1
+
+      - name: Audit, install, and test
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+          HOMEBREW_NO_ENV_HINTS: "1"
+          FORMULA: ${{ steps.set-up-homebrew.outputs.tap-name }}/azguard
+        run: |
+          brew style --formula "$FORMULA"
+          brew audit --strict --os=all --arch=all --formula "$FORMULA"
+          brew install --formula "$FORMULA"
+          brew test --formula "$FORMULA"
