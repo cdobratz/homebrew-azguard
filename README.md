@@ -18,23 +18,30 @@ brew install azguard
 ## Usage
 
 ```bash
-# Check your Azure free tier status
+# Quick status check
 azguard status
 
-# Scan resources approaching limits
+# Scan for free tier overages
 azguard scan
 
-# Set budget alerts
-azguard budget --set 50
+# Add a budget alert
+azguard budget add 50
 
-# List all resources
+# Find idle and orphaned resources
 azguard resources
 
-# Clean up unused resources
+# Poll for new billable resources
+azguard watch
+
+# Block a billable command that would exceed a session budget
+azguard guard --budget 25 -- aws ec2 run-instances --instance-type t3.micro
+
+# Interactive cleanup guide
 azguard cleanup
 
-# View cost breakdown
-azguard cost
+# Fetch latest costs and show the current month
+azguard cost fetch
+azguard cost current
 ```
 
 ## Commands
@@ -45,11 +52,17 @@ azguard cost
 |---------|-------------|
 | `azguard status` | Quick overview of your Azure free tier status |
 | `azguard scan` | Scan for Azure free tier overages |
-| `azguard resources` | List resources with status indicators |
+| `azguard resources` | Find idle and orphaned resources, with a monthly cost estimate |
+| `azguard watch` | Poll for new billable resources and alert |
+| `azguard guard` | Block billable commands that exceed a session budget |
 | `azguard budget add [amount]` | Add a budget alert ($1-$100) |
 | `azguard budget list` | List all budget alerts |
+| `azguard budget remove [name]` | Remove a budget alert |
+| `azguard budget presets` | Show preset budget options |
+| `azguard cost fetch` | Fetch and store costs from Azure |
 | `azguard cost current` | Show current month costs |
 | `azguard cost history` | Show cost history |
+| `azguard cost forecast` | Show cost forecast |
 | `azguard cleanup` | Interactive cleanup guide |
 
 ### AWS
@@ -64,24 +77,54 @@ azguard cost
 
 ## AWS Credential Setup
 
-AzGuard resolves AWS credentials in the following order:
+Never store AWS access keys, secret keys, or session tokens in the AzGuard config file. AzGuard reads cloud secrets from the AWS CLI (profiles and IAM Identity Center SSO) or from environment variables. The same rule applies to an Azure client secret: do not put `client_secret` in the file.
 
-1. **AzGuard config file** (`~/.azguard/config.yaml`):
-   ```yaml
-   aws:
-     access_key: "YOUR_ACCESS_KEY"
-     secret_key: "YOUR_SECRET_KEY"
-     region: "us-east-1"
-   ```
+Config file: `~/.azguard/config.yaml`
 
-2. **Environment variables:**
-   ```bash
-   export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY"
-   export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_KEY"
-   export AWS_DEFAULT_REGION="us-east-1"
-   ```
+```yaml
+azure:
+  auth_method: cli  # or service_principal
+  subscription_id: YOUR_SUB_ID
+  # Do not put client_secret in this file.
 
-3. **AWS CLI** (automatic fallback — if you've already run `aws configure`, AzGuard picks up those credentials)
+aws:
+  region: us-east-1  # optional, uses AWS CLI default
+  # Do not put access keys in this file.
+
+storage:
+  path: ~/.azguard/data.db
+```
+
+### AWS CLI profiles
+
+A configured AWS CLI profile is the usual setup. AzGuard asks the AWS CLI for credentials with `aws configure export-credentials`. That uses the default profile, or the profile named by `AWS_PROFILE`.
+
+```bash
+aws configure
+export AWS_PROFILE=your-profile
+```
+
+### Environment variables
+
+These environment variables override the OS keychain. Set only the ones you use. `AWS_SESSION_TOKEN` is for temporary credentials. `AWS_DEFAULT_REGION` applies when the config file does not set `aws.region`.
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_SESSION_TOKEN`
+- `AWS_DEFAULT_REGION`
+
+`AZURE_CLIENT_SECRET` is the Azure equivalent. Do not copy that value into the config file.
+
+### IAM Identity Center (SSO)
+
+Sign in with the AWS CLI, then run AzGuard. The CLI export above picks up the SSO session for the default profile or for `AWS_PROFILE`.
+
+```bash
+aws sso login
+aws sso login --profile your-profile
+```
+
+If a config file still has `access_key`, `secret_key`, `session_token`, or `client_secret`, the next start copies those values into the OS keychain (service name `azguard`) and removes them from the file. When the keychain is unavailable, the file is left as it is.
 
 ### Required IAM Permissions
 
@@ -98,7 +141,7 @@ AzGuard resolves AWS credentials in the following order:
 ### AWS
 
 - AWS account (free tier eligible)
-- AWS credentials configured (see above)
+- AWS credentials from an AWS CLI profile, IAM Identity Center (SSO), or environment variables (see above)
 
 ## Other Install Methods
 
@@ -106,4 +149,3 @@ AzGuard resolves AWS credentials in the following order:
 - **Direct:** Download from [GitHub Releases](https://github.com/cdobratz/AzGuard/releases)
 
 For more commands and options, see the [full documentation](https://github.com/cdobratz/AzGuard).
-
