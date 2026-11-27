@@ -5,21 +5,21 @@ class Azguard < Formula
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/cdobratz/AzGuard/releases/download/v1.2.0/azguard_1.2.0_darwin_arm64.zip"
-      sha256 "135e8edc54ae143938d9a17de20501902b728df18e6344ce22031888f68fc828"
+      url "https://github.com/cdobratz/AzGuard/releases/download/v1.2.1/azguard_1.2.1_darwin_arm64.zip"
+      sha256 "87da7298c00af8d8d1fa31b8e6fd6ae9f755390118447df031b3dc87d7fd5fac"
     else
-      url "https://github.com/cdobratz/AzGuard/releases/download/v1.2.0/azguard_1.2.0_darwin_amd64.zip"
-      sha256 "79a91e4af18c35aea302d93e5e983f2fa900123d4eb13e0586545e1f8c2f3de1"
+      url "https://github.com/cdobratz/AzGuard/releases/download/v1.2.1/azguard_1.2.1_darwin_amd64.zip"
+      sha256 "1e033d043d73e194f25286ab2c2349d78f1dfcc817b4a50a961dedade3df1962"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/cdobratz/AzGuard/releases/download/v1.2.0/azguard_1.2.0_linux_arm64.tar.gz"
-      sha256 "da2d6281347bf6ad315faf2b27c6723dff740fa79a603355564c1ea78c445a4a"
+      url "https://github.com/cdobratz/AzGuard/releases/download/v1.2.1/azguard_1.2.1_linux_arm64.tar.gz"
+      sha256 "7d130c4296c380e1b7c210c1c3d7a01f15a136afd7cc4bbc03587fe3448a4587"
     else
-      url "https://github.com/cdobratz/AzGuard/releases/download/v1.2.0/azguard_1.2.0_linux_amd64.tar.gz"
-      sha256 "236a13bcd8da8db0a03cbe28e00d6107baeb34cb9fb922ea4719617d5aa685af"
+      url "https://github.com/cdobratz/AzGuard/releases/download/v1.2.1/azguard_1.2.1_linux_amd64.tar.gz"
+      sha256 "b1d9cd9f2b0be5601bf26c0c589cb78634bdc13dd18dc24657a85a5981ce9d02"
     end
   end
 
